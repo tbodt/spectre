@@ -1,0 +1,6 @@
+*.o
+*.d
+cache
+target
+train
+tags
