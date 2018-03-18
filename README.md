@@ -4,7 +4,9 @@ I've looked online for spectre POCs, and all I could find were copies of the one
 
 This demo attacks a simple TCP server. You can open a connection, send two whitespace separated numbers, and get the sum back. To have something interesting to read, this server requires a secret to start up, which is copied into a known location into its memory.
 
-To run the demo, run `make`, then open two terminals and run `./target [port] [secret]` in one terminal. Then run `./attack.sh [port]`. You should see the secret you gave the target program slowly emerge. If it doesn't, I'll have you know it ![works on my machine](https://blog.codinghorror.com/content/images/uploads/2007/03/6a0120a85dcdae970b0128776ff992970c-pi.png)
+To run the demo, run `make`, then open two terminals and run `./target [port] [secret]` in one terminal. Then run `./attack.sh [port]`. You should see the secret you gave the target program slowly emerge. If it doesn't, I'll have you know it
+
+![works on my machine](https://blog.codinghorror.com/content/images/uploads/2007/03/6a0120a85dcdae970b0128776ff992970c-pi.png)
 
 My machine:
 
