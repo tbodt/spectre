@@ -5,7 +5,7 @@ if (( $# != 2)); then
     exit 1
 fi
 port=$1
-target=$2
+target=target
 
 exec 3>&1
 function offset() {
