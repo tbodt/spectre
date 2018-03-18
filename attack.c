@@ -69,5 +69,5 @@ int main(int argc, char *const argv[]) {
             }
         }
     }
-    printf("%c %d\n", ch, max);
+    printf("%c\n", ch);
 }
