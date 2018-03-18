@@ -27,7 +27,6 @@ static void *map_file(const char *file, size_t offset) {
     return mem + (offset & 0xfff);
 }
 
-#define THRESHOLD 250
 #define LOOP 2500
 
 int main(int argc, char *const argv[]) {

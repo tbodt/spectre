@@ -42,8 +42,9 @@ int main(int argc, char *const argv[]) {
     int sock = socket(PF_INET, SOCK_STREAM, 0); check("socket");
     int one = 1;
     setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(one)); check("setsockopt");
+    struct addrinfo hints = {.ai_family = AF_INET, .ai_socktype = SOCK_STREAM};
     struct addrinfo *bind_addr;
-    getaddrinfo("localhost", argv[1], NULL, &bind_addr); check("getaddrinfo");
+    getaddrinfo("localhost", argv[1], &hints, &bind_addr); check("getaddrinfo");
     bind(sock, bind_addr->ai_addr, bind_addr->ai_addrlen); check("bind");
     listen(sock, 10); check("listen");
     printf("listening on port %s\n", argv[1]);

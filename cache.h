@@ -50,3 +50,5 @@ static inline uint64_t time_flush(void *ptr) {
 }
 
 void evict(void *ptr);
+
+#define THRESHOLD 250

