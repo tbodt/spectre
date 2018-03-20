@@ -1,7 +1,7 @@
 #!/bin/bash
 trap "kill -- -$$" SIGINT SIGTRAP EXIT
-if (( $# != 2)); then
-    echo "usage: $0 port target" >&2
+if (( $# != 1)); then
+    echo "usage: $0 port" >&2
     exit 1
 fi
 port=$1
