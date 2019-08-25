@@ -40,6 +40,8 @@ L3 cache:              8192K
 NUMA node0 CPU(s):     0-7
 ```
 
+[@qiutianshu](https://github.com/qiutianshu) emailed me and said they were able to get it to work, but only after buying a computer with exactly the same CPU revision as the one I tested on. It can probably be tweaked to work on other models, but I forgot how.
+
 ## Caveats
 
   - Currently 64-bit only, though it could easily be made to also work on 32-bit.
