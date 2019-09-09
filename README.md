@@ -53,3 +53,7 @@ NUMA node0 CPU(s):     0-7
 ## Writeup
 
 Not yet written. I should get around to it tomorrow.
+
+# License
+
+The code in this repository is dual licensed under the WTFPL and the GPL version 3.
